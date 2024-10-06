@@ -3,4 +3,5 @@
   "minVersion": "0.8",
   "package": "kn.jktech.kpaint.mixins",
   "compatibilityLevel": "JAVA_8",
-  "mixins": ["EntityPaintingMixin","RenderArtMixin","RenderEngineAccessor","EntityPaintingAccessor","ItemHangingPaintingMixin"]}
+  "mixins": ["EntityPaintingMixin","RenderArtMixin","RenderEngineAccessor","EntityPaintingAccessor","ItemHangingPaintingMixin"
+  ,"ItemDescPaintingMixin"]}

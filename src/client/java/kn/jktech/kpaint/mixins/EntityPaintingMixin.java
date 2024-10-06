@@ -4,7 +4,10 @@ import kn.jktech.kpaint.Painting;
 import kn.jktech.kpaint.clipaint;
 import net.minecraft.src.game.entity.EnumArt;
 import net.minecraft.src.game.entity.other.EntityHanging;
+import net.minecraft.src.game.entity.other.EntityItem;
 import net.minecraft.src.game.entity.other.EntityPainting;
+import net.minecraft.src.game.item.Item;
+import net.minecraft.src.game.item.ItemStack;
 import net.minecraft.src.game.level.World;
 import net.minecraft.src.game.nbt.NBTTagCompound;
 import org.spongepowered.asm.mixin.Mixin;
@@ -73,6 +76,21 @@ public abstract class EntityPaintingMixin extends EntityHanging {
     public void scaleY(CallbackInfoReturnable ci) {
         if (painting!=null){
             ci.setReturnValue(painting.scaledy);
+            ci.cancel();
+        }
+    }
+    @Inject(method = "dropItemStack",at=@At("HEAD"),cancellable = true)
+    public void dropItemStack(CallbackInfo ci) {
+        if (this.painting!=null){
+NBTTagCompound nbt=new NBTTagCompound();
+nbt.setString("painting",painting.name);
+            this.worldObj
+                    .entityJoinedWorld(
+                            new EntityItem(
+                                    this.worldObj, this.posX, this.posY, this.posZ,
+
+new ItemStack(Item.painting, 1,999,nbt)
+                                    ));
             ci.cancel();
         }
     }
