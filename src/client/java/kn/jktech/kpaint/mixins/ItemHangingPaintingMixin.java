@@ -28,7 +28,7 @@ if (paint!=""){
     Painting p=clipaint.paintings.get(paint);
     painting.getClass().getField("painting").set(painting,p);
     painting.setDirection(direction);
-    ci.setReturnValue(painting);
+    ci.setReturnValue(p!=null?painting:null);
     ci.cancel();
     return;
 }}
