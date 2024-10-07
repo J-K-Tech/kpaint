@@ -51,6 +51,7 @@ public abstract class RenderArtMixin extends Render {
                 this.renderLivingLabel(painting, artData.title, x, y, z, 64);
             }
         } else {
+            if (p.animated){p.tick();}
             this.loadTexture(p);
             this.renderPainting(painting, p.scaledx/2, p.scaledy,p);
             GL11.glDisable(GL12.GL_RESCALE_NORMAL);

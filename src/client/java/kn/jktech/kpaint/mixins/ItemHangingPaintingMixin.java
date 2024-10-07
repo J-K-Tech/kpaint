@@ -9,6 +9,7 @@ import net.minecraft.src.game.item.ItemStack;
 import net.minecraft.src.game.level.World;
 import net.minecraft.src.game.nbt.NBTTagCompound;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,7 +18,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.ArrayList;
 
 @Mixin(ItemHangingPainting.class)
-public class ItemHangingPaintingMixin {
+public abstract class ItemHangingPaintingMixin {
+
+    @Shadow
+    public abstract EnumArt idToEnum(int id);
+
 @Inject(method = "spawnedEntity",at = @At("HEAD"),cancellable = true)
     public void spawnedEntity(ItemStack itemstack, World world, int x, int y, int z, int direction, CallbackInfoReturnable ci) throws NoSuchFieldException, IllegalAccessException {
     EntityPainting painting= new EntityPainting(world, x, y, z, direction,EnumArt.Kebab);
@@ -32,6 +37,13 @@ if (paint!=""){
     ci.cancel();
     return;
 }}
+    if (itemstack.getItemDamage()!=0&&itemstack.getItemDamage()!=999){
+        painting.art = this.idToEnum(itemstack.getItemDamage());
+        painting.setDirection(direction);
+        ci.setReturnValue(painting);
+        ci.cancel();
+        return;
+    }
         ArrayList<EnumArt> artArr = new ArrayList<EnumArt>();
 
         for (EnumArt p : EnumArt.values()) {

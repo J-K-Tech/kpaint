@@ -10,11 +10,20 @@ public class Painting {
     public int keyframe=0;
     public final int keys;
     public final int keyrate;
+    public int loop=0;
 
 
     public final boolean customimage=false;
     public BufferedImage img=null;
-    public void tick(){}
+    public void tick(){
+        loop++;
+        if (loop>=keyrate){loop=0;
+        keyframe++;
+        if (keyframe>=keys){
+            keyframe=0;
+        }
+        }
+    }
 
 
     public Painting(String n,int SizeX,int Sizez){
